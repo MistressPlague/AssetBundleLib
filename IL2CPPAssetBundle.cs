@@ -5,6 +5,8 @@ using UnhollowerRuntimeLib;
 
 using UnityEngine;
 
+using Object = UnityEngine.Object;
+
 namespace IL2CPPAssetBundleAPI
 {
     public class IL2CPPAssetBundle

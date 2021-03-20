@@ -5,8 +5,6 @@ using UnhollowerRuntimeLib;
 
 using UnityEngine;
 
-using Object = UnityEngine.Object;
-
 namespace IL2CPPAssetBundleAPI
 {
     public class IL2CPPAssetBundle
@@ -14,7 +12,7 @@ namespace IL2CPPAssetBundleAPI
         /// <summary>
         /// The Loaded AssetBundle, Null By Default
         /// </summary>
-        internal UnityEngine.AssetBundle bundle = null;
+        internal AssetBundle bundle = null;
 
         internal bool HasLoadedABundle = false;
 
@@ -25,6 +23,11 @@ namespace IL2CPPAssetBundleAPI
         /// <returns>True If Successful</returns>
         internal bool LoadBundle(string resource)
         {
+            if (HasLoadedABundle)
+            {
+                return true;
+            }
+
             try
             {
                 if (string.IsNullOrEmpty(resource))
@@ -70,7 +73,7 @@ namespace IL2CPPAssetBundleAPI
         /// </summary>
         /// <param name="str">The Internal Name Of The Asset Inside The AssetBundle</param>
         /// <returns>The Asset You Searched For, Null If No AssetBundle Was Previously Loaded</returns>
-        public T Load<T>(string str) where T : Object
+        internal T Load<T>(string str) where T : Object
         {
             if (HasLoadedABundle)
             {

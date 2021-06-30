@@ -1,9 +1,12 @@
+using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 using UnhollowerRuntimeLib;
 
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace IL2CPPAssetBundleAPI
 {
@@ -15,6 +18,16 @@ namespace IL2CPPAssetBundleAPI
         internal AssetBundle bundle = null;
 
         internal bool HasLoadedABundle = false;
+
+        internal string error;
+
+        internal IL2CPPAssetBundle(string resource = null)
+        {
+            if (!string.IsNullOrEmpty(resource))
+            {
+                LoadBundle(resource);
+            }
+        }
 
         /// <summary>
         /// Loads An Asset Bundle For Using Data Such As Sprites
@@ -32,20 +45,21 @@ namespace IL2CPPAssetBundleAPI
             {
                 if (string.IsNullOrEmpty(resource))
                 {
+                    error = "Null Or Empty Resource String!";
                     return false;
                 }
 
                 Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource);
 
-                if (stream != null)
+                if (stream != null && stream.Length > 0)
                 {
                     var memStream = new MemoryStream((int)stream.Length);
 
                     stream.CopyTo(memStream);
 
-                    if (memStream != null)
+                    if (memStream != null && memStream.Length > 0)
                     {
-                        var assetBundle = UnityEngine.AssetBundle.LoadFromMemory_Internal(memStream.ToArray(), 0);
+                        var assetBundle = AssetBundle.LoadFromMemory(memStream.ToArray());
 
                         if (assetBundle != null)
                         {
@@ -57,13 +71,30 @@ namespace IL2CPPAssetBundleAPI
 
                             return true;
                         }
+
+                        assetBundle = AssetBundle.GetAllLoadedAssetBundles_Native().First(o => o.GetAllAssetNames().Any(p => p.ToLower().Contains("plague")));
+
+                        assetBundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+
+                        bundle = assetBundle;
+
+                        HasLoadedABundle = true;
+
+                        return true;
                     }
+
+                    error = "Null memStream!";
+                }
+                else
+                {
+                    error = "Null Stream!";
                 }
 
                 return false;
             }
-            catch
+            catch (Exception ex)
             {
+                error = ex.ToString();
                 return false;
             }
         }

@@ -19,7 +19,7 @@ namespace IL2CPPAssetBundleAPI
 
         internal bool HasLoadedABundle = false;
 
-        internal string error;
+        internal string error = "";
 
         internal IL2CPPAssetBundle(string resource = null)
         {
@@ -106,13 +106,20 @@ namespace IL2CPPAssetBundleAPI
         /// <returns>The Asset You Searched For, Null If No AssetBundle Was Previously Loaded</returns>
         internal T Load<T>(string str) where T : Object
         {
-            if (HasLoadedABundle)
+            try
             {
-                T Asset = bundle.LoadAsset(str, Il2CppType.Of<T>()).Cast<T>();
+                if (HasLoadedABundle)
+                {
+                    T Asset = bundle.LoadAsset(str, Il2CppType.Of<T>()).Cast<T>();
 
-                Asset.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+                    Asset.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
-                return Asset;
+                    return Asset;
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.ToString();
             }
 
             return null;

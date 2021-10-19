@@ -110,7 +110,7 @@ namespace IL2CPPAssetBundleAPI
             {
                 if (HasLoadedABundle)
                 {
-                    T Asset = bundle.LoadAsset(str, Il2CppType.Of<T>()).Cast<T>();
+                    var Asset = bundle.LoadAsset(str, Il2CppType.Of<T>()).Cast<T>();
 
                     Asset.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 

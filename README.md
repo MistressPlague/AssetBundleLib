@@ -1,4 +1,4 @@
-# IL2CPPAssetBundle
+# AssetBundleLib
 A Simple Library For Asset Loading
 # Example
 ```csharp

@@ -6,3 +6,7 @@ if (new AssetBundleLib() is var Bundle && Bundle.LoadBundle("YourNameSpace.Resou
 {
     var AssetObj = Bundle.Load<Sprite>("InternalAssetBundleAssetName");
 }
+else
+{
+    MelonLogger.Error($"Failed Loading Bundle: {Bundle.error}");
+}

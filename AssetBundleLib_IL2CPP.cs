@@ -8,9 +8,9 @@ using UnhollowerRuntimeLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace IL2CPPAssetBundleAPI
+namespace Libraries
 {
-    public class IL2CPPAssetBundle
+    public class AssetBundleLib
     {
         /// <summary>
         /// The Loaded AssetBundle, Null By Default
@@ -21,7 +21,7 @@ namespace IL2CPPAssetBundleAPI
 
         internal string error = "";
 
-        internal IL2CPPAssetBundle(string resource = null)
+        internal AssetBundleLib(string resource = null)
         {
             if (!string.IsNullOrEmpty(resource))
             {
@@ -72,7 +72,9 @@ namespace IL2CPPAssetBundleAPI
                             return true;
                         }
 
-                        assetBundle = AssetBundle.GetAllLoadedAssetBundles_Native().First(o => o.GetAllAssetNames().Any(p => p.ToLower().Contains("plague")));
+                        var resourcename = resource.Replace(resource.Substring(resource.LastIndexOf(".")), "").Substring(resource.LastIndexOf("."));
+
+                        assetBundle = AssetBundle.GetAllLoadedAssetBundles_Native().First(o => o.name == resourcename);
 
                         assetBundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 

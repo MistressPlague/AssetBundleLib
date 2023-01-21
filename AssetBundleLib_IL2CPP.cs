@@ -63,7 +63,7 @@ namespace Libraries
 
                 var resourcename = resource.Replace(resource.Substring(resource.LastIndexOf(".")), "").Substring(resource.LastIndexOf("."));
 
-                var assetBundle = AssetBundle.GetAllLoadedAssetBundles().ToArray().First(o => o.name == resourcename);
+                var assetBundle = AssetBundle.GetAllLoadedAssetBundles_Native().First(o => o.name == resourcename);
 
                 assetBundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 

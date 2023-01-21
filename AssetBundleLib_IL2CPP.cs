@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
+using Il2CppSystem.Linq;
 using UnhollowerRuntimeLib;
 
 using UnityEngine;
@@ -63,7 +63,7 @@ namespace Libraries
 
                 var resourcename = resource.Replace(resource.Substring(resource.LastIndexOf(".")), "").Substring(resource.LastIndexOf("."));
 
-                var assetBundle = AssetBundle.GetAllLoadedAssetBundles().First(o => o.name == resourcename);
+                var assetBundle = AssetBundle.GetAllLoadedAssetBundles().ToArray().First(o => o.name == resourcename);
 
                 assetBundle.hideFlags |= HideFlags.DontUnloadUnusedAsset;
 
